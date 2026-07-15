@@ -1,0 +1,35 @@
+services:
+  vllm-hy-mt2:
+    image: vllm/vllm-openai:latest
+    container_name: vllm-hy-mt2
+    gpus: all
+    ports:
+      - "2422:8000"
+    volumes:
+      - ./models:/models
+    command: ["--model", "/models/Hy-MT2-1.8B", "--trust-remote-code", "--port", "8000", "--gpu-memory-utilization", "0.25", "--max-model-len", "4096"]
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  hy-mt2-service:
+    build: .
+    container_name: hy-mt2-service
+    ports:
+      - "2420:8000"
+    environment:
+      - APP_NAME=${APP_NAME}
+      - HOST=${HOST}
+      - PORT=${PORT}
+      - VLLM_API_URL=${VLLM_API_URL}
+      - MODEL_NAME=${MODEL_NAME}
+      - DEFAULT_TEMPERATURE=${DEFAULT_TEMPERATURE}
+      - DEFAULT_TOP_P=${DEFAULT_TOP_P}
+      - DEFAULT_TOP_K=${DEFAULT_TOP_K}
+      - DEFAULT_REPETITION_PENALTY=${DEFAULT_REPETITION_PENALTY}
+      - DEFAULT_MAX_TOKENS=${DEFAULT_MAX_TOKENS}
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      - vllm-hy-mt2

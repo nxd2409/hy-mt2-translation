@@ -119,7 +119,7 @@ def _call_llm(user_prompt: str) -> tuple:
         "temperature": config["temperature"],
         "max_tokens": config["max_tokens"],
         "top_p": config["top_p"],
-        "stream": False,
+        "stream": True,
     }
     resp = requests.post(url, headers=headers, json=json_data, timeout=REQUEST_TIMEOUT)
     resp.raise_for_status()

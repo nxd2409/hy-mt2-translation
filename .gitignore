@@ -1,0 +1,22 @@
+# Byte-compiled / optimized / DLL support
+__pycache__/
+*.py[cod]
+*$py.class
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Environments & Secrets
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Project-specific: Large model weights
+models/
+**/model.safetensors
+**/*.safetensors
+**/*.bin
+**/*.onnx
